@@ -1,0 +1,19 @@
+{
+  "name": "purescript-webstorage",
+  "version": "0.0.0",
+  "authors": [
+    "joneshf <jones3.hardy@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "purescript-maybe": "~0.1.3"
+  }
+}
