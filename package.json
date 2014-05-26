@@ -1,12 +1,8 @@
 {
   "name": "purescript-webstorage",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "version": "0.0.1",
+  "description": "Simple wrapper around webstorage",
+  "author": "Hardy Jones <jones3.hardy@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.6.2",
