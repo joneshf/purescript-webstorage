@@ -3,6 +3,14 @@
   "version": "0.0.1",
   "description": "Simple wrapper around webstorage",
   "author": "Hardy Jones <jones3.hardy@gmail.com>",
+  "homepage": "https://github.com/joneshf/purescript-webstorage",
+  "bugs": {
+    "url": "https://github.com/joneshf/purescript-webstorage/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joneshf/purescript-webstorage.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.6.2",

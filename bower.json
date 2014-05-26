@@ -1,6 +1,7 @@
 {
   "name": "purescript-webstorage",
   "version": "0.0.1",
+  "homepage": "https://github.com/joneshf/purescript-webstorage",
   "authors": [
     "Hardy Jones <jones3.hardy@gmail.com>"
   ],
