@@ -1,127 +1,97 @@
-module Browser.WebStorage where
+module Browser.WebStorage
+  ( Storage
+  , LocalStorage(..)
+  , SessionStorage(..)
+  , clear
+  , getItem
+  , key
+  , length
+  , removeItem
+  , setItem
+  ) where
 
   import Data.Maybe
 
   class Storage s where
-    length :: Number
-    key :: Number -> Maybe String
-    getItem :: forall v. String -> Maybe v
-    setItem :: forall v. String -> v -> s
-    removeItem :: String -> s
     clear :: s
+    getItem :: forall v. String -> Maybe v
+    key :: Number -> Maybe String
+    length :: Number
+    removeItem :: String -> s
+    setItem :: forall v. String -> v -> s
 
   instance storageLocalStorage :: Storage LocalStorage where
-    length = localLength localStorage
-    key = localKey localStorage
-    getItem = localGetItem localStorage
-    setItem = localSetItem localStorage
-    removeItem = localRemoveItem localStorage
-    clear = localClear localStorage
+    length = unsafeLength localStorage
+    key = unsafeKey localStorage
+    getItem = unsafeGetItem localStorage
+    setItem = unsafeSetItem localStorage
+    removeItem = unsafeRemoveItem localStorage
+    clear = unsafeClear localStorage
 
   instance storageSessionStorage :: Storage SessionStorage where
-    length = sessionLength sessionStorage
-    key = sessionKey sessionStorage
-    getItem = sessionGetItem sessionStorage
-    setItem = sessionSetItem sessionStorage
-    removeItem = sessionRemoveItem sessionStorage
-    clear = sessionClear sessionStorage
+    length = unsafeLength sessionStorage
+    key = unsafeKey sessionStorage
+    getItem = unsafeGetItem sessionStorage
+    setItem = unsafeSetItem sessionStorage
+    removeItem = unsafeRemoveItem sessionStorage
+    clear = unsafeClear sessionStorage
 
   foreign import data LocalStorage :: *
   foreign import data SessionStorage :: *
 
   foreign import localStorage
     "var localStorage = window.localStorage" :: LocalStorage
-
-  foreign import localLength
-    "function localLength(ls) {\
-    \  return ls.length;\
-    \}" :: LocalStorage -> Number
-
-  foreign import localKey
-    "function localKey(ls) {\
-    \  return function(num) {\
-    \    return null2Maybe(ls.key(num));\
-    \  }\
-    \}" :: LocalStorage -> Number -> Maybe String
-
-  foreign import localGetItem
-    "function localGetItem(ls) {\
-    \  return function(str) {\
-    \    return null2Maybe(ls.getItem(str));\
-    \  }\
-    \}" :: forall v. LocalStorage -> String -> Maybe v
-
-  foreign import localSetItem
-    "function localSetItem(ls) {\
-    \  return function(str) {\
-    \    return function(val) {\
-    \      ls.setItem(str, val);\
-    \      return ls;\
-    \    }\
-    \  }\
-    \}" :: forall v. LocalStorage -> String -> v -> LocalStorage
-
-  foreign import localRemoveItem
-    "function localRemoveItem(ls) {\
-    \  return function(str) {\
-    \    ls.removeItem(str);\
-    \    return ls;\
-    \  }\
-    \}" :: LocalStorage -> String -> LocalStorage
-
-  foreign import localClear
-    "function localClear(ls) {\
-    \  ls.clear();\
-    \  return ls;\
-    \}" :: LocalStorage -> LocalStorage
-
   foreign import sessionStorage
     "var sessionStorage = window.sessionStorage" :: SessionStorage
 
-  foreign import sessionLength
-    "function sessionLength(ss) {\
-    \  return ss.length;\
-    \}" :: SessionStorage -> Number
+  foreign import unsafeLength
+    "function unsafeLength(storage) {\
+    \  return storage.length;\
+    \}" :: forall storage. storage -> Number
 
-  foreign import sessionKey
-    "function sessionKey(ss) {\
+  foreign import unsafeKey
+    "function unsafeKey(storage) {\
     \  return function(num) {\
-    \    return null2Maybe(ss.key(num));\
+    \    return null2Maybe(storage.key(num));\
     \  }\
-    \}" :: SessionStorage -> Number -> Maybe String
+    \}" :: forall storage. storage -> Number -> Maybe String
 
-  foreign import sessionGetItem
-    "function sessionGetItem(ss) {\
+  foreign import unsafeGetItem
+    "function unsafeGetItem(storage) {\
     \  return function(str) {\
-    \    return null2Maybe(ss.getItem(str));\
+    \    return null2Maybe(storage.getItem(str));\
     \  }\
-    \}" :: forall v. SessionStorage -> String -> Maybe v
+    \}" :: forall storage v. storage -> String -> Maybe v
 
-  foreign import sessionSetItem
-    "function sessionSetItem(ss) {\
+  foreign import unsafeSetItem
+    "function unsafeSetItem(storage) {\
     \  return function(str) {\
     \    return function(val) {\
-    \      ss.setItem(str, val);\
-    \      return ss;\
+    \      storage.setItem(str, val);\
+    \      return storage;\
     \    }\
     \  }\
-    \}" :: forall v. SessionStorage -> String -> v -> SessionStorage
+    \}" :: forall storage v. storage -> String -> v -> storage
 
-  foreign import sessionRemoveItem
-    "function sessionRemoveItem(ss) {\
+  foreign import unsafeRemoveItem
+    "function unsafeRemoveItem(storage) {\
     \  return function(str) {\
-    \    ss.removeItem(str);\
-    \    return ss;\
+    \    storage.removeItem(str);\
+    \    return storage;\
     \  }\
-    \}" :: SessionStorage -> String -> SessionStorage
+    \}" :: forall storage. storage -> String -> storage
 
-  foreign import sessionClear
-    "function sessionClear(ss) {\
-    \  ss.clear();\
-    \  return ss;\
-    \}" :: SessionStorage -> SessionStorage
+  foreign import unsafeClear
+    "function unsafeClear(storage) {\
+    \  storage.clear();\
+    \  return storage;\
+    \}" :: forall storage. storage -> storage
 
   foreign import null2Maybe
     "function null2Maybe(n) {\
-    \  return n === null ? Data_Maybe.Nothing : Data_Maybe.Just(n);\
+    \  return n == null ? Data_Maybe.Nothing : Data_Maybe.Just(n);\
     \}" :: forall a. a -> Maybe a
+
+  -- psc is too smart for its own good.
+  -- we need to keep an explicit use of something in `Data.Maybe` so that it wont eliminate it.
+  foo = Nothing
