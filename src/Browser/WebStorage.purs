@@ -2,6 +2,8 @@ module Browser.WebStorage
   ( Storage
   , LocalStorage(..)
   , SessionStorage(..)
+  , localStorage
+  , sessionStorage
   , clear
   , getItem
   , key
@@ -13,28 +15,28 @@ module Browser.WebStorage
   import Data.Maybe
 
   class Storage s where
-    clear :: s
-    getItem :: forall v. String -> Maybe v
-    key :: Number -> Maybe String
-    length :: Number
-    removeItem :: String -> s
-    setItem :: forall v. String -> v -> s
+    clear :: s -> s
+    getItem :: forall v. s -> String -> Maybe v
+    key :: s -> Number -> Maybe String
+    length :: s -> Number
+    removeItem :: s -> String -> s
+    setItem :: forall v. s -> String -> v -> s
 
   instance storageLocalStorage :: Storage LocalStorage where
-    length = unsafeLength localStorage
-    key = unsafeKey localStorage
-    getItem = unsafeGetItem localStorage
-    setItem = unsafeSetItem localStorage
-    removeItem = unsafeRemoveItem localStorage
-    clear = unsafeClear localStorage
+    length _ = unsafeLength localStorage
+    key _ = unsafeKey localStorage
+    getItem _ = unsafeGetItem localStorage
+    setItem _ = unsafeSetItem localStorage
+    removeItem _ = unsafeRemoveItem localStorage
+    clear _ = unsafeClear localStorage
 
   instance storageSessionStorage :: Storage SessionStorage where
-    length = unsafeLength sessionStorage
-    key = unsafeKey sessionStorage
-    getItem = unsafeGetItem sessionStorage
-    setItem = unsafeSetItem sessionStorage
-    removeItem = unsafeRemoveItem sessionStorage
-    clear = unsafeClear sessionStorage
+    length _ = unsafeLength sessionStorage
+    key _ = unsafeKey sessionStorage
+    getItem _ = unsafeGetItem sessionStorage
+    setItem _ = unsafeSetItem sessionStorage
+    removeItem _ = unsafeRemoveItem sessionStorage
+    clear _ = unsafeClear sessionStorage
 
   foreign import data LocalStorage :: *
   foreign import data SessionStorage :: *
@@ -89,9 +91,10 @@ module Browser.WebStorage
 
   foreign import null2Maybe
     "function null2Maybe(n) {\
-    \  return n == null ? Data_Maybe.Nothing : Data_Maybe.Just(n);\
+    \  return n == null ? nothing : just(n);\
     \}" :: forall a. a -> Maybe a
 
   -- psc is too smart for its own good.
   -- we need to keep an explicit use of something in `Data.Maybe` so that it wont eliminate it.
-  foo = Nothing
+  nothing = Nothing
+  just = Just
