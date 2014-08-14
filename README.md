@@ -12,12 +12,12 @@
 ### Type Classes
 
     class Storage s where
-      clear :: s
-      getItem :: forall v. Prim.String -> Maybe v
-      key :: Prim.Number -> Maybe Prim.String
-      length :: Prim.Number
-      removeItem :: Prim.String -> s
-      setItem :: forall v. Prim.String -> v -> s
+      clear :: s -> s
+      getItem :: forall v. s -> String -> Maybe v
+      key :: s -> Number -> Maybe String
+      length :: s -> Number
+      removeItem :: s -> String -> s
+      setItem :: forall v. s -> String -> v -> s
 
 
 ### Type Class Instances
@@ -28,6 +28,10 @@
 
 
 ### Values
+
+    localStorage :: LocalStorage
+
+    sessionStorage :: SessionStorage
 
 
 
