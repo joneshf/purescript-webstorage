@@ -23,11 +23,11 @@ module Browser.WebStorage
 
   class Storage s where
     clear :: forall eff. s -> EffWebStorage eff Unit
-    getItem :: forall eff v. s -> String -> EffWebStorage eff (Maybe v)
+    getItem :: forall eff. s -> String -> EffWebStorage eff (Maybe String)
     key :: forall eff. s -> Number -> EffWebStorage eff (Maybe String)
     length :: forall eff. s -> EffWebStorage eff Number
     removeItem :: forall eff. s -> String -> EffWebStorage eff Unit
-    setItem :: forall eff v. s -> String -> v -> EffWebStorage eff Unit
+    setItem :: forall eff. s -> String -> String -> EffWebStorage eff Unit
 
   instance storageLocalStorage :: Storage LocalStorage where
     length _ = unsafeLength localStorage

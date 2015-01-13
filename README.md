@@ -24,7 +24,7 @@
 
       clear :: forall eff. s -> EffWebStorage eff Unit
 
-      getItem :: forall eff v. s -> String -> EffWebStorage eff (Maybe v)
+      getItem :: forall eff. s -> String -> EffWebStorage eff (Maybe String)
 
       key :: forall eff. s -> Number -> EffWebStorage eff (Maybe String)
 
@@ -32,7 +32,7 @@
 
       removeItem :: forall eff. s -> String -> EffWebStorage eff Unit
 
-      setItem :: forall eff v. s -> String -> v -> EffWebStorage eff Unit
+      setItem :: forall eff. s -> String -> String -> EffWebStorage eff Unit
 
 
 ### Type Class Instances
