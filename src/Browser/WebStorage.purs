@@ -31,16 +31,16 @@ module Browser.WebStorage
 
   instance storageLocalStorage :: Storage LocalStorage where
     length _ = unsafeLength localStorage
-    key _ n = runFn2 unsafeKey localStorage n
-    getItem _ k = runFn2 unsafeGetItem localStorage k
+    key _ n = runFn3 unsafeKey null2Maybe localStorage n
+    getItem _ k = runFn3 unsafeGetItem null2Maybe localStorage k
     setItem _ k v = runFn3 unsafeSetItem localStorage k v
     removeItem _ k = runFn2 unsafeRemoveItem localStorage k
     clear _ = unsafeClear localStorage
 
   instance storageSessionStorage :: Storage SessionStorage where
     length _ = unsafeLength sessionStorage
-    key _ n = runFn2 unsafeKey sessionStorage n
-    getItem _ k = runFn2 unsafeGetItem sessionStorage k
+    key _ n = runFn3 unsafeKey null2Maybe sessionStorage n
+    getItem _ k = runFn3 unsafeGetItem null2Maybe sessionStorage k
     setItem _ k v = runFn3 unsafeSetItem sessionStorage k v
     removeItem _ k = runFn2 unsafeRemoveItem sessionStorage k
     clear _ = unsafeClear sessionStorage
@@ -61,18 +61,18 @@ module Browser.WebStorage
     \}" :: forall eff storage. storage -> EffWebStorage eff Number
 
   foreign import unsafeKey
-    "function unsafeKey(storage,num) {\
+    "function unsafeKey(null2Maybe,storage,num) {\
     \  return function(){\
     \    return null2Maybe(storage.key(num));\
     \  }\
-    \}" :: forall eff storage. Fn2 storage Number (EffWebStorage eff (Maybe String))
+    \}" :: forall eff storage. Fn3 (String -> Maybe String) storage Number (EffWebStorage eff (Maybe String))
 
   foreign import unsafeGetItem
-    "function unsafeGetItem(storage,str) {\
+    "function unsafeGetItem(null2Maybe,storage,str) {\
     \  return function(){\
     \    return null2Maybe(storage.getItem(str));\
     \  }\
-    \}" :: forall eff storage v. Fn2 storage String (EffWebStorage eff (Maybe v))
+    \}" :: forall eff storage v. Fn3 (v -> Maybe v) storage String (EffWebStorage eff (Maybe v))
 
   foreign import unsafeSetItem
     "function unsafeSetItem(storage,str,val) {\
@@ -95,12 +95,10 @@ module Browser.WebStorage
     \  }\
     \}" :: forall eff storage. storage -> EffWebStorage eff Unit
 
-  foreign import null2Maybe
-    "function null2Maybe(n) {\
+  foreign import null2MaybeImpl
+    "function null2MaybeImpl(just, nothing, n) {\
     \  return n == null ? nothing : just(n);\
-    \}" :: forall a. a -> Maybe a
+    \}" :: forall a. Fn3 (a -> Maybe a) (Maybe a) a (Maybe a)
 
-  -- psc is too smart for its own good.
-  -- we need to keep an explicit use of something in `Data.Maybe` so that it wont eliminate it.
-  nothing = Nothing
-  just = Just
+  null2Maybe :: forall a. a -> Maybe a
+  null2Maybe n = runFn3 null2MaybeImpl Just Nothing n
