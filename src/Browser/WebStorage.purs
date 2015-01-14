@@ -78,6 +78,7 @@ module Browser.WebStorage
     "function unsafeSetItem(storage,str,val) {\
     \  return function(){\
     \    storage.setItem(str, val);\
+    \    return {};\
     \  }\
     \}" :: forall eff storage v. Fn3 storage String v (EffWebStorage eff Unit)
 
@@ -85,6 +86,7 @@ module Browser.WebStorage
     "function unsafeRemoveItem(storage,str) {\
     \  return function(){\
     \    storage.removeItem(str);\
+    \    return {};\
     \  }\
     \}" :: forall eff storage. Fn2 storage String (EffWebStorage eff Unit)
 
@@ -92,6 +94,7 @@ module Browser.WebStorage
     "function unsafeClear(storage) {\
     \  return function(){\
     \    storage.clear();\
+    \    return {};\
     \  }\
     \}" :: forall eff storage. storage -> EffWebStorage eff Unit
 
