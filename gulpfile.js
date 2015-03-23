@@ -18,7 +18,7 @@ gulp.task('compile', function() {
 
 gulp.task('docs', function() {
     return gulp.src('src/**/*.purs')
-      .pipe(purescript.docgen())
+      .pipe(purescript.pscDocs())
       .pipe(gulp.dest('README.md'));
 });
 
