@@ -1,56 +1,68 @@
-# Module Documentation
-
 ## Module Browser.WebStorage
 
-### Types
+#### `WebStorage`
 
+``` purescript
+data WebStorage :: !
+```
 
-    type EffWebStorage eff = Eff (webStorage :: WebStorage | eff)
+#### `EffWebStorage`
 
+``` purescript
+type EffWebStorage eff = Eff (webStorage :: WebStorage | eff)
+```
 
-    data LocalStorage :: *
+#### `Storage`
 
+``` purescript
+class Storage s where
+  clear :: forall eff. s -> EffWebStorage eff Unit
+  getItem :: forall eff. s -> String -> EffWebStorage eff (Maybe String)
+  key :: forall eff. s -> Number -> EffWebStorage eff (Maybe String)
+  length :: forall eff. s -> EffWebStorage eff Number
+  removeItem :: forall eff. s -> String -> EffWebStorage eff Unit
+  setItem :: forall eff. s -> String -> String -> EffWebStorage eff Unit
+```
 
-    data SessionStorage :: *
+##### Instances
+``` purescript
+instance storageLocalStorage :: Storage LocalStorage
+instance storageSessionStorage :: Storage SessionStorage
+```
 
+#### `LocalStorage`
 
-    data WebStorage :: !
+``` purescript
+data LocalStorage :: *
+```
 
+##### Instances
+``` purescript
+instance storageLocalStorage :: Storage LocalStorage
+```
 
-### Type Classes
+#### `SessionStorage`
 
+``` purescript
+data SessionStorage :: *
+```
 
-    class Storage s where
+##### Instances
+``` purescript
+instance storageSessionStorage :: Storage SessionStorage
+```
 
-      clear :: forall eff. s -> EffWebStorage eff Unit
+#### `localStorage`
 
-      getItem :: forall eff. s -> String -> EffWebStorage eff (Maybe String)
+``` purescript
+localStorage :: LocalStorage
+```
 
-      key :: forall eff. s -> Number -> EffWebStorage eff (Maybe String)
+#### `sessionStorage`
 
-      length :: forall eff. s -> EffWebStorage eff Number
-
-      removeItem :: forall eff. s -> String -> EffWebStorage eff Unit
-
-      setItem :: forall eff. s -> String -> String -> EffWebStorage eff Unit
-
-
-### Type Class Instances
-
-
-    instance storageLocalStorage :: Storage LocalStorage
-
-
-    instance storageSessionStorage :: Storage SessionStorage
-
-
-### Values
-
-
-    localStorage :: LocalStorage
-
-
-    sessionStorage :: SessionStorage
+``` purescript
+sessionStorage :: SessionStorage
+```
 
 
 
