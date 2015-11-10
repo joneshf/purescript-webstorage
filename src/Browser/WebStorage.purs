@@ -14,6 +14,7 @@ module Browser.WebStorage
   , setItem
   ) where
 
+  import Prelude
   import Control.Monad.Eff
   import Data.Maybe
   import Data.Function
@@ -48,60 +49,29 @@ module Browser.WebStorage
   foreign import data LocalStorage :: *
   foreign import data SessionStorage :: *
 
-  foreign import localStorage
-    "var localStorage = window.localStorage" :: LocalStorage
-  foreign import sessionStorage
-    "var sessionStorage = window.sessionStorage" :: SessionStorage
+  foreign import localStorage :: LocalStorage
+  foreign import sessionStorage :: SessionStorage
 
   foreign import unsafeLength
-    "function unsafeLength(storage) {\
-    \  return function(){\
-    \    return storage.length;\
-    \  }\
-    \}" :: forall eff storage. storage -> EffWebStorage eff Number
+    :: forall eff storage. storage -> EffWebStorage eff Number
 
   foreign import unsafeKey
-    "function unsafeKey(null2Maybe,storage,num) {\
-    \  return function(){\
-    \    return null2Maybe(storage.key(num));\
-    \  }\
-    \}" :: forall eff storage. Fn3 (String -> Maybe String) storage Number (EffWebStorage eff (Maybe String))
+    :: forall eff storage. Fn3 (String -> Maybe String) storage Number (EffWebStorage eff (Maybe String))
 
   foreign import unsafeGetItem
-    "function unsafeGetItem(null2Maybe,storage,str) {\
-    \  return function(){\
-    \    return null2Maybe(storage.getItem(str));\
-    \  }\
-    \}" :: forall eff storage v. Fn3 (v -> Maybe v) storage String (EffWebStorage eff (Maybe v))
+    :: forall eff storage v. Fn3 (v -> Maybe v) storage String (EffWebStorage eff (Maybe v))
 
   foreign import unsafeSetItem
-    "function unsafeSetItem(storage,str,val) {\
-    \  return function(){\
-    \    storage.setItem(str, val);\
-    \    return {};\
-    \  }\
-    \}" :: forall eff storage v. Fn3 storage String v (EffWebStorage eff Unit)
+    :: forall eff storage v. Fn3 storage String v (EffWebStorage eff Unit)
 
   foreign import unsafeRemoveItem
-    "function unsafeRemoveItem(storage,str) {\
-    \  return function(){\
-    \    storage.removeItem(str);\
-    \    return {};\
-    \  }\
-    \}" :: forall eff storage. Fn2 storage String (EffWebStorage eff Unit)
+    :: forall eff storage. Fn2 storage String (EffWebStorage eff Unit)
 
   foreign import unsafeClear
-    "function unsafeClear(storage) {\
-    \  return function(){\
-    \    storage.clear();\
-    \    return {};\
-    \  }\
-    \}" :: forall eff storage. storage -> EffWebStorage eff Unit
+    :: forall eff storage. storage -> EffWebStorage eff Unit
 
   foreign import null2MaybeImpl
-    "function null2MaybeImpl(just, nothing, n) {\
-    \  return n == null ? nothing : just(n);\
-    \}" :: forall a. Fn3 (a -> Maybe a) (Maybe a) a (Maybe a)
+    :: forall a. Fn3 (a -> Maybe a) (Maybe a) a (Maybe a)
 
   null2Maybe :: forall a. a -> Maybe a
   null2Maybe n = runFn3 null2MaybeImpl Just Nothing n

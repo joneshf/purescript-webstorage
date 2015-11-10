@@ -8,18 +8,23 @@ var paths = {
     src: [ 'src/**/*.purs'
          , 'bower_components/purescript-*/src/**/*.purs'
          ]
-}
+  , ffi: [ 'src/**/*.js'
+         , 'bower_components/purescript-*/src/**/*.js'
+         ]
+  }
 
 gulp.task('compile', function() {
-    return gulp.src(paths.src)
-        .pipe(purescript.pscMake())
-        .pipe(gulp.dest(''));
+    return purescript.psc({
+      src: paths.src
+    , ffi: paths.ffi
+    });
 });
 
 gulp.task('docs', function() {
-    return gulp.src('src/**/*.purs')
-      .pipe(purescript.pscDocs())
-      .pipe(gulp.dest('README.md'));
+    return purescript.pscDocs({
+      src: paths.src
+    , docgen: "Browser.WebStorage"
+    }).pipe(gulp.dest('README.md'));
 });
 
 gulp.task('default', ['compile', 'docs']);
