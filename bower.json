@@ -14,8 +14,8 @@
     "tests"
   ],
   "dependencies": {
-    "purescript-maybe": "~0.3.1",
-    "purescript-eff": "~0.1.0",
-    "purescript-functions": "~0.1.0"
+    "purescript-maybe": "~1.0.0",
+    "purescript-eff": "~1.0.0",
+    "purescript-functions": "~1.0.0"
   }
 }

@@ -1,7 +1,5 @@
 "use strict";
 
-// module Browser.WebStorage
-
 exports.localStorage = window.localStorage;
 exports.sessionStorage = window.sessionStorage;
 
@@ -47,4 +45,3 @@ exports.unsafeClear = function(storage) {
 exports.null2MaybeImpl = function(just, nothing, n) {
   return n == null ? nothing : just(n);
 };
-

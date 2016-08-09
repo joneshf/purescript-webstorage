@@ -1,5 +1,5 @@
 module Browser.WebStorage
-  ( Storage
+  ( class Storage
   , LocalStorage(..)
   , SessionStorage(..)
   , WebStorage()
@@ -15,9 +15,9 @@ module Browser.WebStorage
   ) where
 
   import Prelude
-  import Control.Monad.Eff
-  import Data.Maybe
-  import Data.Function
+  import Control.Monad.Eff (Eff)
+  import Data.Maybe (Maybe(..))
+  import Data.Function.Uncurried (Fn3, Fn2, runFn3, runFn2)
 
   foreign import data WebStorage :: !
   type EffWebStorage eff = Eff (webStorage :: WebStorage | eff)

@@ -26,8 +26,8 @@ class Storage s where
 
 ##### Instances
 ``` purescript
-instance storageLocalStorage :: Storage LocalStorage
-instance storageSessionStorage :: Storage SessionStorage
+Storage LocalStorage
+Storage SessionStorage
 ```
 
 #### `LocalStorage`
@@ -38,7 +38,7 @@ data LocalStorage :: *
 
 ##### Instances
 ``` purescript
-instance storageLocalStorage :: Storage LocalStorage
+Storage LocalStorage
 ```
 
 #### `SessionStorage`
@@ -49,7 +49,7 @@ data SessionStorage :: *
 
 ##### Instances
 ``` purescript
-instance storageSessionStorage :: Storage SessionStorage
+Storage SessionStorage
 ```
 
 #### `localStorage`
