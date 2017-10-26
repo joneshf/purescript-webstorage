@@ -1,5 +1,5 @@
 # purescript-webstorage
 
-# Docs
+## Documentation
 
-## [Browser.WebStorage](docs/Browser/WebStorage.md)
+Module documentation is [published on Pursuit](http://pursuit.purescript.org/packages/purescript-webstorage).

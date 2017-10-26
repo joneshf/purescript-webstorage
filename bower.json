@@ -1,6 +1,5 @@
 {
   "name": "purescript-webstorage",
-  "version": "2.0.0",
   "homepage": "https://github.com/joneshf/purescript-webstorage",
   "authors": [
     "Hardy Jones <jones3.hardy@gmail.com>"
@@ -14,8 +13,8 @@
     "tests"
   ],
   "dependencies": {
-    "purescript-maybe": "~2.0.0",
-    "purescript-eff": "~2.0.0",
-    "purescript-functions": "~2.0.0"
+    "purescript-maybe": "^3.0.0",
+    "purescript-eff": "^3.1.0",
+    "purescript-functions": "^3.0.0"
   }
 }
