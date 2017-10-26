@@ -2,7 +2,7 @@ module Browser.WebStorage
   ( class Storage
   , LocalStorage(..)
   , SessionStorage(..)
-  , WebStorage()
+  , WEB_STORAGE()
   , EffWebStorage()
   , localStorage
   , sessionStorage
@@ -21,8 +21,8 @@ import Control.Monad.Eff (Eff, kind Effect)
 import Data.Function.Uncurried (Fn3, Fn2, runFn3, runFn2)
 import Data.Maybe (Maybe(..))
 
-foreign import data WebStorage :: Effect
-type EffWebStorage eff = Eff (webStorage :: WebStorage | eff)
+foreign import data WEB_STORAGE :: Effect
+type EffWebStorage eff = Eff (webStorage :: WEB_STORAGE | eff)
 
 class Storage s where
     clear :: forall eff. s -> EffWebStorage eff Unit
