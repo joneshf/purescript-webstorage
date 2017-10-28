@@ -1,0 +1,13 @@
+install:
+  - npm install
+  - npm run bower -- install
+
+language: node_js
+
+node_js: 8
+
+notifications:
+  email: false
+
+script:
+  - npm run build
