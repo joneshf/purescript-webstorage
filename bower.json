@@ -16,5 +16,9 @@
     "purescript-maybe": "^3.0.0",
     "purescript-eff": "^3.1.0",
     "purescript-functions": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joneshf/purescript-webstorage.git"
   }
 }
