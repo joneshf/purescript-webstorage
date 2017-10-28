@@ -1,6 +1,6 @@
 {
   "name": "purescript-webstorage",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Simple wrapper around webstorage",
   "author": "Hardy Jones <jones3.hardy@gmail.com>",
   "homepage": "https://github.com/joneshf/purescript-webstorage",
