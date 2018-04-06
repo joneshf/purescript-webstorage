@@ -1,3 +1,9 @@
+deploy:
+  - on:
+      repo: joneshf/purescript-webstorage
+    provider: script
+    script: ./script/travis_pulp_publish.sh --token $GITHUB_PULP_TOKEN
+
 install:
   - npm install
   - npm run bower -- install
@@ -11,3 +17,7 @@ notifications:
 
 script:
   - npm run build
+
+env:
+  global:
+    - secure: UpaTxaFgiwXGAv0R6dpplNDT4XvfoDlgmDIncBhYTx4OHVOF0Zo4AmUbwGVGsS+T/i8kAbVt39GunmJjmFpruI2Rtay7IzCfOhvNsFZcBEc0Sko/USpbPxiROrMMWYGCQSU4GI3YxP8/mtMNdyARz4OY6Y12ak9Zzzj8DtYs/gA=
