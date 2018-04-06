@@ -56,4 +56,4 @@ if [ -z "${GITHUB_TOKEN}" ]; then
 fi
 
 echo "${GITHUB_TOKEN}" | npm run --silent pulp -- login
-npm run --silent pulp -- publish --no-push
+yes | npm run --silent pulp -- publish --no-push
