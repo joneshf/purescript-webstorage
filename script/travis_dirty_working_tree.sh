@@ -6,9 +6,7 @@ IFS=$'\n\t'
 readonly THIS_SCRIPT="${0}"
 readonly LOG_FILE="/tmp/$(basename "${THIS_SCRIPT}").log"
 
-GITHUB_TOKEN=''
-
-#/ Usage: travis_publish.sh [OPTION...]
+#/ Usage: travis_dirty_working_tree.sh [OPTION...]
 #/ Publish versions to Pursuit from Travis CI
 #/
 #/ Options:
@@ -25,9 +23,6 @@ while [[ $# -gt 0 ]]; do
     option="${1}"
     case "${option}" in
         --help) usage;;
-        --token)
-            shift
-            GITHUB_TOKEN="${1}";;
         *)
             echo "${THIS_SCRIPT}: unrecognized option '${option}'"
             echo "Try '${THIS_SCRIPT} --help' for more information"
@@ -51,11 +46,8 @@ trap cleanup EXIT
 
 # End Boilerplate
 
-if [ -z "${GITHUB_TOKEN}" ]; then
-   echo 'Token must be given.'
-   echo "Try '${THIS_SCRIPT} --help' for more information"
-   exit 1
+if [[ -z "$(git diff-index --quiet HEAD --)" ]]; then
+    echo 'working tree is dirty'
+    git status --porcelain
+    exit 1
 fi
-
-echo "${GITHUB_TOKEN}" | npm run --silent pulp -- login
-yes | npm run --silent pulp -- publish --no-push

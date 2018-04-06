@@ -19,6 +19,7 @@ notifications:
 
 script:
   - npm run build
+  - ./script/travis_dirty_working_tree.sh
 
 env:
   global:
