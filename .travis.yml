@@ -4,6 +4,7 @@ deploy:
       repo: joneshf/purescript-webstorage
     provider: script
     script: ./script/travis_pulp_publish.sh --token $GITHUB_PULP_TOKEN
+    skip_cleanup: true
 
 install:
   - npm install
