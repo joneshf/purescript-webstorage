@@ -46,8 +46,10 @@ trap cleanup EXIT
 
 # End Boilerplate
 
-if [[ -z "$(git diff-index --quiet HEAD --)" ]]; then
+DIRTY="$(git status --porcelain)"
+
+if [[ -n "${DIRTY}"  ]]; then
     echo 'working tree is dirty'
-    git status --porcelain
+    echo "${DIRTY}"
     exit 1
 fi
