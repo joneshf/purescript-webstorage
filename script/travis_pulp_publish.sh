@@ -58,4 +58,4 @@ if [ -z "${GITHUB_TOKEN}" ]; then
 fi
 
 echo "${GITHUB_TOKEN}" | npm run --silent pulp -- login
-yes | npm run --silent pulp -- publish --no-push
+echo 'y' | npm run --silent pulp -- publish --no-push
